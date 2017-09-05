@@ -15,7 +15,6 @@ module.exports = function(day, dateRange, options) {
   var dayStart = Array.isArray(day) ? day[0] : floor(day)
   var dayEnd = Array.isArray(day) ? day[1] : ceil(day, options.inclusive)
 
-  console.log(day, [dayStart, dayEnd], dateRange)
   return intersection([dayStart, dayEnd], dateRange)
 }
 
@@ -45,10 +44,6 @@ function ceil(date, inclusive) {
 
   if(!inclusive)
     d.setMilliseconds(-1)
-  //d.setHours(23)
-  //d.setMinutes(59)
-  //d.setSeconds(59)
-  //d.setMilliseconds(999)
 
   return d
 }
