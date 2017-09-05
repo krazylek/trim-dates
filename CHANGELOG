@@ -1,0 +1,10 @@
+v0.1.0
+------
+
+* (fix) in trim-dates-tz, option tzOffset is renamed to timezoneOffset (as written in README doc)
+
+
+v0.0.1
+------
+
+First version

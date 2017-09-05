@@ -88,7 +88,7 @@ test('intersecting inside same day is working in another timezone', function (t)
   var day = new Date('2017-01-01T02:00:00-05:00')
   var start = new Date('2017-01-01T09:00:00-05:00')
   var end = new Date('2017-01-01T16:00:00-05:00')
-  var inter = trimDatesTz(day, [start, end], { tzOffset: 5 *60})
+  var inter = trimDatesTz(day, [start, end], { timezoneOffset: 5 *60})
 
   t.ok(Array.isArray(inter))
   t.equal(`${inter[0].toLocaleTimeString()} - ${inter[1].toLocaleTimeString()}`, '09:00:00 - 16:00:00')
@@ -99,7 +99,7 @@ test('intersecting in another timezone, and reverting to original timezone', fun
   var day = new Date('2017-01-01T02:00:00-05:00')
   var start = new Date('2017-01-01T09:00:00-05:00')
   var end = new Date('2017-01-01T16:00:00-05:00')
-  var inter = trimDatesTz(day, [start, end], { tzOffset: 5 *60, revertZone: true })
+  var inter = trimDatesTz(day, [start, end], { timezoneOffset: 5 *60, revertZone: true })
 
   t.ok(Array.isArray(inter))
   t.equal(inter[0].toISOString(), start.toISOString())
