@@ -29,61 +29,42 @@ console.log(intersection)
 ```
 
 
-# API
-
-```js
-var trimDates = require('trim-dates')
-```
-
-
-## var intersection = trimDates(dayDate, dateRange, opts)
-
-Return an array of two dates if an intersection is found, or null.
-All provided dates couldbe either Date object or timestamp.
-
-* `dayDate` - the day to intersect your range with. Optionaly you can provide your own range array: `[startDate, endDate]`.
-* `dateRange` - the date range to be trimmed to fit inside the provided day. Hqave to be ordered: `[startDate, endDate]`.
-* `opts.inclusive` - if you want to include the last millisecond, so the day range is from current day 00:00 to next day 00:00.
-
-If using `trim-dates-tz`, you get a few more options:`
-
-```js
-var trimDates = require('trim-dates/trim-dates-tz')
-```
-
-## var intersection = trimDates(dayDate, dateRange, opts)
-
-Signature is similar to `trim-dates`. The result is stil a Date array in **local** time.
-Here are the added options:
-
-* `opts.timezoneOffset` - minutes offset from UTC time. **This is similar to js `getTimezoneOffset()` (and so inverse of momentjs `utcOffset()`)**.
-* `opts.revertZone` - in case you prefer the result to be kept in original timezone
-
-
 # Timezones
 
 ## The problem
 
-JavaScript only know use current local timezone, witch could lead to some unexpected behaviors.
-For example, executed in +11:00 timezone, the previous example would returns
+JavaScript only know use current local timezone. For example, executed in +11:00 timezone, the previous example would returns
 
 ``` js
+var day = new Date('2017-01-01')
+var range = [ 
+  new Date('2017-01-01T09:00:00'),
+  new Date('2017-02-01T16:00:00')
+]
+var intersection = trimDates(day, range)
+
+console.log(intersection)
+
 // => [ 2016-12-31T22:00:00.000Z, 2017-01-01T12:59:59.999Z ] // because this is diplayed in UTC
 ```
 
-This is still exact as all the computing is done with this timezone.
+On the other hand this is what we expect, as the computing was done within the same local timezone.
 
 ```js
+intersection[0].getDate()
+
+// => 1 // oh!
+
 intersection[0].getHours()
 
 // => 9 // good!
 
 intersection[1].getHours() + ':' + intersection[1].getMinutes()
 
-// => '23:59'
+// => '23:59' // yeah!
 ```
 
-Unfortunately, sometimes you could want to work in other timezone, witch will be converted anyway when creating a js Date, but still want to display times in this timezone.
+Unfortunately, sometimes you could want to work with other timezone, which could to lead to unexpected behaviors.
 
 For example:
 
@@ -100,15 +81,15 @@ console.log(trimDates(day, range))
 // no intersection in +11:00 timezone!!
 ```
 
-This is due to the day range creation not timezone aware.
+This is due to the day range creation not being timezone aware.
 
 
 ## trim-dates-tz
 
 To circumvent and ease the use of non local timezone, a small wrapper file is provided.
-It allows to give a timezone offset in minutes to convert the given dates.
+It allows to specify a timezone offset in minutes to work properly with the given dates.
 
-**Note: offset is equivalent to `Date.prototype.getTimezoneOffset()`**. 
+**Note: this offset is equivalent to `Date.prototype.getTimezoneOffset()`**. 
 Which means `2017-01-01T10:00:00+02:00` for a french timezone should be given a **-120** offset.
 
 Finaly, by defaults the returned range is in local timezone, so the above date would gives `10` when calling `getHours()`.
@@ -156,6 +137,39 @@ Something like:
 ```js
 var day = new Date('2017-01-01T00:00:00-05:00'.splice(0, 19))
 ```
+
+Will work as well with your local timezone.
+
+
+# API
+
+
+## var trimDates = require('trim-dates')
+
+
+## var intersection = trimDates(dayDate, dateRange, opts)
+
+Return an array of two dates if an intersection is found, or null.
+All provided dates couldbe either Date object or timestamp.
+
+* `dayDate` - the day to intersect your range with. Optionaly you can provide your own range array: `[startDate, endDate]`.
+* `dateRange` - the date range to be trimmed to fit inside the provided day. Hqave to be ordered: `[startDate, endDate]`.
+* `opts.inclusive` - if you want to include the last millisecond, so the day range is from current day 00:00 to next day 00:00.
+
+---
+
+If using `trim-dates-tz`, you get a few more options:`
+
+## var trimDatesTz = require('trim-dates/trim-dates-tz')
+
+
+## var intersection = trimDatesTz(dayDate, dateRange, opts)
+
+Signature is similar to `trim-dates`. The result is stil a Date array in **local** time.
+Here are the added options:
+
+* `opts.timezoneOffset` - minutes offset from UTC time. **This is similar to js `getTimezoneOffset()` (and so inverse of momentjs `utcOffset()`)**.
+* `opts.revertZone` - in case you prefer the result to be kept in original timezone
 
 
 # license
