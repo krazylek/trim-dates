@@ -2,6 +2,8 @@ v0.1.0
 ------
 
 * (fix) in trim-dates-tz, option tzOffset is renamed to timezoneOffset (as written in README doc)
+* (changed) in trim-dates-tz, timezoneOffset does not modify the provided day zone 
+* (new) in trim-dates-tz, added a dayTimezoneOffset property to explicitly change the day zone
 
 
 v0.0.1

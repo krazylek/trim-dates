@@ -85,7 +85,7 @@ To circumvent and ease the use of non local timezone, a small wrapper file is pr
 It allows to specify a timezone offset in minutes to work properly with the given dates.
 
 **Note: this offset is equivalent to `Date.prototype.getTimezoneOffset()`**. 
-Which means `2017-01-01T10:00:00+02:00` for a french timezone should be given a **-120** offset.
+Which means `2017-01-01T10:00:00+02:00` for a french timezone should be given a **`-120`** offset.
 
 Finaly, by defaults the returned range is in local timezone, so the above date would gives `10` when calling `getHours()`.
 This is usualy convenient, but it modifies the date value. If your goal is to keep original, add `revertTimezone: true` to options.
@@ -166,6 +166,7 @@ Here are the added options:
 
 * `opts.timezoneOffset` - default: `0`. Timezone offset in minutes from UTC time. **This is similar to js `getTimezoneOffset()` but **inverse of momentjs `utcOffset()`**.
 * `opts.revertZone` - default: `false`. In case you prefer the result to keep it's original value.
+* `dayTimezoneOffset` - default: `null`. Similat to timezoneOffset, but adapt the day if in another timezone.
 
 
 # license
