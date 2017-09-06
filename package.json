@@ -1,6 +1,6 @@
 {
   "name": "trim-dates",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Trim (intersect) a date range whith a specific day (or custom range).",
   "main": "index.js",
   "scripts": {
